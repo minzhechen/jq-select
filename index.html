@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+    <link rel="stylesheet" href="./css/iconfont/iconfont.css" />
+    <link rel="stylesheet" href="./cmzInput.css" />
+    <script src="./cmzInput.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div
+      id="div1"
+      style="margin-left: 20px;margin-top: 10px;width:200px;height: 30px;"
+    ></div>
+
+    <div
+      id="div2"
+      style="margin-left: 20px;margin-top: 10px;width:200px;height: 30px;"
+    ></div>
+
+    <script type="text/javascript">
+      let arr = [
+        { id: 1, name: 'Java', name2: '爪哇爪哇' },
+        { id: 2, name: 'PHP', name2: '拍什么片' },
+        { id: 3, name: 'HTML', name2: '简约而不简单' },
+        { id: 4, name: 'jQuery', name2: '老夫一把梭' },
+        { id: 5, name: 'Android', name2: '安卓' },
+        { id: 6, name: 'C', name2: '学不会' },
+        { id: 7, name: 'C++', name2: '更加不会' },
+        { id: 8, name: 'Struts', name2: '懂哦' },
+        { id: 9, name: 'hibernate', name2: '什么东西呀' }
+      ]
+
+      // 选中时触发
+      let callback = function (val) {
+        console.log('哈哈哈：', val)
+      }
+
+      $('#div1').cmzSelect({ arr, label: 'name', callback })
+
+      let lis = ''
+
+      arr.forEach(v => {
+        lis += `<li class="clearfix" style="width:300px;">
+          <div class="fl" style="width:120px;">${v['name']}</div>
+          <div class="fl">${v['name2']}</div>
+          </li>`
+      })
+
+      $('#div2').cmzSelect({
+        arr, // 数据源
+        label: 'name', // input展示数据
+        callback, // 回调函数
+        lis, // 自定义下拉列表
+        searchList: ['name', 'name2'] // 模糊查询字段列表
+      })
+    </script>
+  </body>
+</html>
