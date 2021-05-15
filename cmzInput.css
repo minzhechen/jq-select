@@ -87,7 +87,6 @@ ul {
   color: #606266;
   font-size: 14px;
   border: 1px solid #e4e7ed;
-  min-width: 150px;
   position: absolute;
   overflow: hidden;
   background-color: #fff;
@@ -135,7 +134,7 @@ ul {
 .cmz-select .delImg:hover {
   color: #ccc;
 }
-.cmz-select .delImg:hover + .customerId {
+.cmz-select .delImg:hover + .cmz-input {
   border-color: #c0c4cc;
 }
 .cmz-select .arrowIcon {
