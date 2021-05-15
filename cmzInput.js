@@ -172,6 +172,8 @@
       toggleIcon(false)
       // 切换placeholder提示内容
       togglePlaceholder()
+      // 调用回调函数
+      if (callback) callback('')
       // 阻止事件传递
       e.stopPropagation()
     })
