@@ -36,18 +36,18 @@
 
       arr.forEach(v => {
         lis += `<li class="clearfix" style="width:300px;">
-          <div class="fl" style="width:120px;">${v['name']}</div>
+          <div class="fl" style="width:120px;">${v ['name']}</div>
           <div class="fl">${v['name2']}</div>
           </li>`
       })
 
       $('#div').cmzSelect({
         // #div为容器
-        arr, // 数据源
+        arr:[], // 数据源
         label: 'name', // input展示数据
         callback, // 回调函数
         lis, // 自定义下拉列表（可以不传）
-        searchList: ['name', 'name2'] // 模糊查询字段列表
+        searchList: ['name', 'name2','c'] // 模糊查询字段列表
       })
 
       $('#div2').cmzSelect({

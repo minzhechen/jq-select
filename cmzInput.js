@@ -15,6 +15,17 @@
     // 当前this
     let that = this
 
+    // 报错提示
+    if (!(arr.length && isType(arr[0], 'Object'))) {
+      console.error(new Error('arr格式为[{},{}...],且数组长度至少为1'))
+      return
+    }
+
+    if (!(label in arr[0])) {
+      console.error(new Error('label属性不存在'))
+      return
+    }
+
     // 初始化dom结构
     this.append(
       `<div class="cmz-select">
@@ -231,14 +242,12 @@
           let rowObj = arr[i]
 
           // 模糊查询配置项存在时
-          if (
-            Object.prototype.toString.call(searchList).slice(8, -1) ===
-              'Array' &&
-            searchList.length
-          ) {
+          if (isType(searchList, 'Array') && searchList.length) {
             // 其中一个匹配项符合
-            flag = searchList.some(
-              key => rowObj[key].toLowerCase().indexOf(val.toLowerCase()) !== -1
+            flag = searchList.some(key =>
+              rowObj[key]
+                ? rowObj[key].toLowerCase().indexOf(val.toLowerCase()) !== -1
+                : false
             )
           } else {
             flag = contentValue.toLowerCase().indexOf(val.toLowerCase()) !== -1
@@ -287,6 +296,10 @@
       } else {
         $cmzInput.attr({ placeholder: '请选择' })
       }
+    }
+
+    function isType (target, type) {
+      return Object.prototype.toString.call(target).slice(8, -1) === type
     }
   }
 })(jQuery)
