@@ -1,16 +1,18 @@
 ;(function ($) {
   $.fn.cmzSelect = function ({
+    id = null,
+    currentId = null,
     arr,
     label,
     callback,
     searchList = [],
-    lis = null
+    liRow = null
   }) {
     // arr         下拉列表数据源
     // label       input展示数据字段
     // callback    选中项的回调函数
     // searchList  模糊搜索的字段
-    // lis         自定义下拉列表dom
+    // liRow         自定义下拉列表dom
 
     // 当前this
     let that = this
@@ -26,8 +28,13 @@
       return
     }
 
+    if (id === null || !(id in arr[0])) {
+      console.error(new Error('唯一标识id不能为空，且必须存在于数组对象内'))
+      return
+    }
+
     // 初始化dom结构
-    this.append(
+    that.append(
       `<div class="cmz-select">
       
       <!-- 删除icon -->
@@ -63,25 +70,57 @@
     let inputVal = ''
 
     // 下拉列表dom
-    let options = ''
+    let options = createE('ul', ['list'])
 
     // 是否修改过一次css
     let cssFlag = false
+
+    // 下拉框列表
+    if (liRow === null) {
+      arr.forEach(row => {
+        let $li = createE('li', '', row[label])
+        options.appendChild($li)
+      })
+    } else {
+      // 正则匹配胡子语法
+      let reg = /{{(.+?)}}/g
+      // 下拉框宽度
+      let w = 0
+      let flag = false
+      arr.forEach(row => {
+        let $li =
+          row[id] === currentId
+            ? createE('li', ['clearfix', 'selected'])
+            : createE('li', ['clearfix'])
+
+        for (let li of liRow) {
+          li = li.trim()
+          li = li.replace(reg, function () {
+            return row[arguments[1].trim()]
+          })
+          let liC = beE(li)
+          $li.appendChild(liC)
+          if (flag === false) w += Number(liC.style.width.split('p')[0])
+        }
+        if (!flag) flag = !flag
+        options.appendChild($li)
+      })
+      // 设置下拉框宽度
+      options.style.width = w + 40 + 'px'
+    }
+
+    // 替换展示列表
+    $list.replaceWith(options)
+
+    // 重新获取元素
+    $list = $cmzSelect.find('ul.list')
 
     // 样式：下拉框定位
     $list.css({ top: $cmzInput.outerHeight() })
     $listT.css({ top: $cmzInput.outerHeight() })
 
-    // 下拉框列表
-    if (lis === null) {
-      arr.forEach(row => {
-        options += `<li>${row[label]}</li>`
-      })
-    } else {
-      options = lis
-    }
-    // 添加展示列表
-    $list.append(options)
+    // 初始化已有数据
+    init()
 
     // 点击显示下拉框ul块
     $cmzSelect.on('click', function (e) {
@@ -119,7 +158,7 @@
     // 下拉项选中时
     $list.find('li').on('click', function (e) {
       // 当前项索引
-      let idx = that.find('.list li').index(this)
+      let idx = $list.find('li').index(this)
 
       // select选中的项
       inputVal = arr[idx][label]
@@ -134,7 +173,7 @@
         .removeClass('selected')
 
       // 赋值input框内容
-      $cmzSelect.find('input').val(inputVal)
+      $cmzInput.val(inputVal)
 
       // icon变回下箭头
       $arrowIcon.removeClass('selected')
@@ -298,8 +337,35 @@
       }
     }
 
+    // 类型判断函数
     function isType (target, type) {
       return Object.prototype.toString.call(target).slice(8, -1) === type
+    }
+
+    // 创建元素
+    function createE (tab, cls = null, txt) {
+      let t = document.createElement(tab)
+      if (cls.length) {
+        cls.forEach(v => t.classList.add(v))
+      }
+      if (txt) t.innerText = txt
+      return t
+    }
+
+    // 字符串转换成dom
+    function beE (template) {
+      let tempNode = document.createElement('div')
+      tempNode.innerHTML = template
+      return tempNode.firstChild
+    }
+
+    // 初始化已有数据
+    function init () {
+      let obj = arr.find(v => v[id] === currentId)
+      if (obj) {
+        inputVal = obj[label]
+      }
+      $cmzInput.val(inputVal)
     }
   }
 })(jQuery)

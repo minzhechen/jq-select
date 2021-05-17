@@ -11,8 +11,14 @@
     <title>Document</title>
   </head>
   <body>
-    <div id="div" style="width:200px;height: 30px;margin-left:10px;margin-top: 10px;"></div>
-    <div id="div2" style="width:200px;height: 30px;margin-left:10px;margin-top: 10px;"></div>
+    <div
+      id="div"
+      style="width:200px;height: 30px;margin-left:10px;margin-top: 10px;"
+    ></div>
+    <div
+      id="div2"
+      style="width:200px;height: 30px;margin-left:10px;margin-top: 10px;"
+    ></div>
 
     <script type="text/javascript">
       let arr = [
@@ -32,25 +38,24 @@
         console.log(val)
       }
 
-      let lis = ''
-
-      arr.forEach(v => {
-        lis += `<li class="clearfix" style="width:300px;">
-          <div class="fl" style="width:120px;">${v ['name']}</div>
-          <div class="fl">${v['name2']}</div>
-          </li>`
-      })
+      let liRow = [
+        '<div class="fl" style="width:130px;">{{ name2 }}</div>',
+        '<div class="fl" style="width:90px;">{{name}}</div>'
+      ]
 
       $('#div').cmzSelect({
         // #div为容器
+        id: 'id', // 唯一标识
+        currentId: 1, // 当前选择的数据
         arr, // 数据源
         label: 'name', // input展示数据
         callback, // 回调函数
-        lis, // 自定义下拉列表（可以不传）
+        liRow, // 自定义下拉列表（可以不传）
         searchList: ['name', 'name2'] // 模糊查询字段列表
       })
 
       $('#div2').cmzSelect({
+        id: 'id', // 唯一标识
         arr, // 数据源
         label: 'name', // input展示数据
         callback, // 回调函数
