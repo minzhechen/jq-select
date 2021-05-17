@@ -88,22 +88,22 @@
       let w = 0
       let flag = false
       arr.forEach(row => {
-        let $li =
+        let liDom =
           row[id] === currentId
             ? createE('li', ['clearfix', 'selected'])
             : createE('li', ['clearfix'])
 
-        for (let li of liRow) {
-          li = li.trim()
-          li = li.replace(reg, function () {
+        for (let child of liRow) {
+          child = child.trim()
+          child = child.replace(reg, function () {
             return row[arguments[1].trim()]
           })
-          let liC = beE(li)
-          $li.appendChild(liC)
-          if (flag === false) w += Number(liC.style.width.split('p')[0])
+          let childDom = beE(child)
+          liDom.appendChild(childDom)
+          if (flag === false) w += Number(childDom.style.width.split('p')[0])
         }
         if (!flag) flag = !flag
-        options.appendChild($li)
+        options.appendChild(liDom)
       })
       // 设置下拉框宽度
       options.style.width = w + 40 + 'px'

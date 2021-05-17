@@ -38,6 +38,8 @@
         console.log(val)
       }
 
+      // 自定义下拉列表：必须传数组，且每项dom的自定义样式必须为行内样式
+      // 胡子语法{{ xxx }},括号之间不能用空格，如：{ {} } 无法识别
       let liRow = [
         '<div class="fl" style="width:130px;">{{ name2 }}</div>',
         '<div class="fl" style="width:90px;">{{name}}</div>'
